@@ -1,0 +1,54 @@
+baseURL = 'https://robll-v1.github.io/'
+languageCode = 'zh-Hans'
+title = 'robllの代码小岛'
+theme = 'hugo-theme-stack'
+paginate = 10
+ignoreLogs = ['warning-goldmark-raw-html']
+
+[params]
+mainSections = ['posts']
+description = '数据库内核 / AI Agent / 开源贡献'
+
+[params.colorScheme]
+toggle = true
+default = 'dark'
+
+[params.sidebar]
+emoji = '🏝️'
+subtitle = '数据库内核 / AI Agent / 开源贡献'
+
+[params.article]
+math = false
+toc = true
+readingTime = true
+
+[[params.widgets.homepage]]
+type = 'search'
+
+[[params.widgets.homepage]]
+type = 'archives'
+
+[[params.widgets.homepage]]
+type = 'tag-cloud'
+
+[[menu.main]]
+name = 'Home'
+url = '/'
+weight = 1
+
+[[menu.main]]
+name = 'Archives'
+url = '/archives'
+weight = 2
+
+[[menu.main]]
+name = 'GitHub'
+url = 'https://github.com/robll-v1'
+weight = 3
+
+[markup.highlight]
+lineNos = true
+style = 'dracula'
+
+[markup.goldmark.renderer]
+unsafe = true
