@@ -8,6 +8,7 @@ ignoreLogs = ['warning-goldmark-raw-html']
 [params]
 mainSections = ['posts']
 description = '数据库内核 / AI Agent / 开源贡献'
+favicon = '🏝️'
 
 [params.colorScheme]
 toggle = true
@@ -26,10 +27,13 @@ readingTime = true
 type = 'search'
 
 [[params.widgets.homepage]]
-type = 'archives'
+type = 'categories'
 
 [[params.widgets.homepage]]
 type = 'tag-cloud'
+
+[[params.widgets.page]]
+type = 'toc'
 
 [[menu.main]]
 name = 'Home'
@@ -42,9 +46,14 @@ url = '/archives'
 weight = 2
 
 [[menu.main]]
+name = 'About'
+url = '/about'
+weight = 3
+
+[[menu.main]]
 name = 'GitHub'
 url = 'https://github.com/robll-v1'
-weight = 3
+weight = 4
 
 [markup.highlight]
 lineNos = true
@@ -52,3 +61,7 @@ style = 'dracula'
 
 [markup.goldmark.renderer]
 unsafe = true
+
+[taxonomies]
+category = 'categories'
+tag = 'tags'

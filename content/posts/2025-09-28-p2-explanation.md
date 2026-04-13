@@ -2,6 +2,8 @@
 title: "#p2 解释"
 date: 2025-09-28
 draft: false
+categories: ["数据库"]
+tags: ["CMU 15-445", "学习笔记"]
 ---
 
 日期：2025-09-28

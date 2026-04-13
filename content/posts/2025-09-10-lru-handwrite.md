@@ -2,6 +2,8 @@
 title: "更一篇LRU算法面试题手撕："
 date: 2025-09-10
 draft: false
+categories: ["算法"]
+tags: ["面试", "LRU", "手撕"]
 ---
 
 日期：2025-09-10

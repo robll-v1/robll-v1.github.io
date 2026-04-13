@@ -2,6 +2,8 @@
 title: "算法题（自用）"
 date: 2025-09-14
 draft: false
+categories: ["算法"]
+tags: ["面试", "刷题"]
 ---
 
 日期：2025-09-14

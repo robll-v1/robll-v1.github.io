@@ -2,6 +2,8 @@
 title: "#project 1 Buffer Pool CMU 15-445 (9.6)"
 date: 2025-09-06
 draft: false
+categories: ["数据库"]
+tags: ["CMU 15-445", "Buffer Pool"]
 ---
 
 日期：2025-09-06

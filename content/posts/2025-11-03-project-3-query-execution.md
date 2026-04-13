@@ -2,6 +2,8 @@
 title: "Project #3 – Query Execution"
 date: 2025-11-03
 draft: false
+categories: ["数据库"]
+tags: ["CMU 15-445", "Query Execution"]
 ---
 
 日期：2025-11-03

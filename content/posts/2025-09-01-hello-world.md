@@ -1,9 +1,9 @@
 ---
-title: "Hello world ！"
+title: "Hello world！"
 date: 2025-09-01
 draft: false
+categories: ["随笔"]
+tags: ["日常"]
 ---
 
-日期：2025-09-01
-
-Cpper的DBMS奇妙之旅！~
+Hello world！
