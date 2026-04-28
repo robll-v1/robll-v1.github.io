@@ -12,7 +12,7 @@ favicon = '🏝️'
 
 [params.colorScheme]
 toggle = true
-default = 'dark'
+default = 'light'
 
 [params.sidebar]
 emoji = '🏝️'
@@ -57,7 +57,7 @@ weight = 4
 
 [markup.highlight]
 lineNos = true
-style = 'dracula'
+style = 'github'
 
 [markup.goldmark.renderer]
 unsafe = true

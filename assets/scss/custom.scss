@@ -1,0 +1,676 @@
+// GitHub-style override for hugo-theme-stack
+
+// ============================================================
+// COLOR SYSTEM
+// ============================================================
+:root {
+    --body-background: #f6f8fa;
+    --accent-color: #0969da;
+    --accent-color-darker: #0550ae;
+    --accent-color-text: #fff;
+    --body-text-color: #656d76;
+
+    --tag-border-radius: 20px;
+    --section-separation: 24px;
+    --main-top-padding: 24px;
+
+    --card-background: #ffffff;
+    --card-background-selected: #f3f4f6;
+    --card-text-color-main: #1f2328;
+    --card-text-color-secondary: #656d76;
+    --card-text-color-tertiary: #8b949e;
+    --card-separator-color: #d0d7de;
+    --card-border-radius: 6px;
+    --card-padding: 16px;
+
+    @include respond(md) {
+        --card-padding: 20px;
+    }
+    @include respond(xl) {
+        --card-padding: 24px;
+        --main-top-padding: 32px;
+    }
+
+    --shadow-l1: none;
+    --shadow-l2: none;
+
+    --blockquote-border-size: 3px;
+    --blockquote-background-color: #f6f8fa;
+    --heading-border-size: 3px;
+
+    --link-background-color: 9, 105, 218;
+    --link-background-opacity: 0.1;
+    --link-background-opacity-hover: 0.2;
+
+    --code-background-color: rgba(175, 184, 193, 0.2);
+    --code-text-color: #1f2328;
+
+    --table-border-color: #d0d7de;
+    --tr-even-background-color: #f6f8fa;
+
+    --kbd-border-color: #d0d7de;
+
+    --alert-note-color: #0969da;
+    --alert-note-background: rgba(9, 105, 218, 0.06);
+    --alert-tip-color: #1a7f37;
+    --alert-tip-background: rgba(26, 127, 55, 0.06);
+    --alert-important-color: #8250df;
+    --alert-important-background: rgba(130, 80, 223, 0.06);
+    --alert-warning-color: #9a6700;
+    --alert-warning-background: rgba(154, 103, 0, 0.06);
+    --alert-caution-color: #d1242f;
+    --alert-caution-background: rgba(209, 36, 47, 0.06);
+
+    // Dark mode
+    &[data-scheme="dark"] {
+        --body-background: #010409;
+        --accent-color: #4493f8;
+        --accent-color-darker: #6cb6ff;
+        --accent-color-text: #ffffff;
+        --body-text-color: #8d96a0;
+
+        --card-background: #0d1117;
+        --card-background-selected: #161b22;
+        --card-text-color-main: #e6edf3;
+        --card-text-color-secondary: #8d96a0;
+        --card-text-color-tertiary: #656d76;
+        --card-separator-color: #30363d;
+
+        --blockquote-background-color: #161b22;
+
+        --code-background-color: rgba(110, 118, 129, 0.25);
+        --code-text-color: #e6edf3;
+
+        --table-border-color: #30363d;
+        --tr-even-background-color: #161b22;
+
+        --kbd-border-color: #30363d;
+    }
+}
+
+// ============================================================
+// FONTS
+// ============================================================
+:root {
+    --sys-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial;
+    --base-font-family: var(--sys-font-family), sans-serif;
+    --code-font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    --article-font-family: var(--base-font-family);
+    --article-font-size: 1.5rem;
+    --article-line-height: 1.7;
+
+    @include respond(md) {
+        --article-font-size: 1.6rem;
+    }
+}
+
+// ============================================================
+// CODE HIGHLIGHTING - GitHub style
+// ============================================================
+[data-scheme="light"] {
+    --pre-text-color: #1f2328;
+    --pre-background-color: #f6f8fa;
+}
+
+[data-scheme="dark"] {
+    --pre-text-color: #e6edf3;
+    --pre-background-color: #161b22;
+}
+
+// ============================================================
+// BASE
+// ============================================================
+body {
+    font-size: 1.5rem;
+}
+
+// ============================================================
+// GLOBAL BORDER STYLE (replaces shadows)
+// ============================================================
+@mixin gh-border {
+    border: 1px solid var(--card-separator-color);
+    box-shadow: none;
+}
+
+// Apply border to all card-style elements
+.article-list article,
+.article-list--compact,
+.article-list--tile article,
+.article-page .main-article,
+.widget--toc,
+#main-menu,
+.tagCloud .tagCloud-tags a,
+.widget.archives .widget-archive--list {
+    @include gh-border;
+}
+
+// Remove hover shadow, use subtle border change
+.article-list article:hover,
+.tagCloud .tagCloud-tags a:hover,
+.article-list--tile article:hover {
+    box-shadow: none;
+    border-color: var(--accent-color);
+}
+
+// ============================================================
+// SIDEBAR
+// ============================================================
+.sidebar header {
+    .site-avatar {
+        .site-logo {
+            box-shadow: none;
+            border: 2px solid var(--card-separator-color);
+        }
+
+        .emoji {
+            box-shadow: none;
+            border: 1px solid var(--card-separator-color);
+        }
+    }
+
+    .site-name {
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: var(--card-text-color-main);
+    }
+
+    .site-description {
+        font-size: 1.3rem;
+        color: var(--body-text-color);
+    }
+}
+
+// ============================================================
+// MENU
+// ============================================================
+#main-menu {
+    border: none;
+    font-size: 1.4rem;
+
+    @include respond(md) {
+        background-color: transparent;
+    }
+
+    li {
+        a {
+            color: var(--card-text-color-main);
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: background-color 0.15s ease;
+
+            &:hover {
+                background-color: var(--card-background-selected);
+                color: var(--card-text-color-main);
+            }
+        }
+
+        &.current a {
+            color: var(--accent-color);
+            background-color: transparent;
+            font-weight: 600;
+        }
+    }
+}
+
+// ============================================================
+// ARTICLE LIST (homepage cards)
+// ============================================================
+.article-list {
+    gap: 16px;
+
+    article {
+        border-radius: 6px;
+        transition: border-color 0.15s ease;
+    }
+}
+
+.article-details {
+    padding: var(--card-padding);
+    gap: 8px;
+}
+
+.article-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    line-height: 1.4;
+
+    @include respond(xl) {
+        font-size: 2rem;
+    }
+
+    a:hover {
+        color: var(--accent-color);
+        opacity: 1;
+    }
+}
+
+.article-subtitle {
+    font-size: 1.5rem;
+    line-height: 1.5;
+
+    @include respond(xl) {
+        font-size: 1.6rem;
+    }
+}
+
+// ============================================================
+// ARTICLE META
+// ============================================================
+.article-meta {
+    font-size: 1.3rem;
+    gap: 8px;
+
+    &, time, a, span {
+        font-size: 1.3rem;
+    }
+}
+
+// ============================================================
+// CATEGORY / TAG BADGES — override theme auto-generated colors
+// ============================================================
+.article-category a,
+.article-tags a {
+    background-color: rgba(var(--accent-color-rgb, 9, 105, 218), 0.08) !important;
+    color: var(--accent-color) !important;
+    border: none !important;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    transition: all 0.15s ease;
+
+    &:hover {
+        background-color: var(--accent-color) !important;
+        color: #fff !important;
+    }
+}
+
+[data-scheme="dark"] {
+    .article-category a,
+    .article-tags a {
+        background-color: rgba(68, 147, 248, 0.12) !important;
+
+        &:hover {
+            background-color: var(--accent-color) !important;
+        }
+    }
+}
+
+// ============================================================
+// SINGLE ARTICLE PAGE
+// ============================================================
+.article-page .main-article {
+    border-radius: 6px;
+
+    .article-header .article-details {
+        padding: var(--card-padding);
+        padding-bottom: 0;
+    }
+
+    .article-content {
+        margin: 16px 0;
+    }
+
+    .article-footer {
+        margin: var(--card-padding);
+        padding-top: 16px;
+        border-top: 1px solid var(--card-separator-color);
+    }
+}
+
+// ============================================================
+// ARTICLE CONTENT
+// ============================================================
+.article-content {
+    font-size: var(--article-font-size);
+    line-height: var(--article-line-height);
+
+    h1, h2, h3, h4, h5, h6 {
+        border-inline-start: none;
+        margin-inline-start: 0;
+        padding-inline-start: 0;
+        padding-bottom: 8px;
+        margin-top: 2em;
+        margin-bottom: 1em;
+    }
+
+    h1, h2 {
+        border-bottom: 1px solid var(--card-separator-color);
+    }
+
+    h1 { font-size: 2.4rem; }
+    h2 { font-size: 2rem; }
+    h3 { font-size: 1.8rem; }
+    h4 { font-size: 1.6rem; }
+
+    a.header-anchor {
+        color: var(--body-text-color);
+
+        &:before {
+            content: "#";
+        }
+    }
+
+    > p {
+        margin: 1em 0;
+    }
+
+    code {
+        padding: 2px 6px;
+        border-radius: 6px;
+        font-size: 0.9em;
+        font-family: var(--code-font-family);
+    }
+
+    pre {
+        border-radius: 6px;
+        border: 1px solid var(--card-separator-color);
+        font-size: 1.3rem;
+        line-height: 1.5;
+        padding: 16px;
+    }
+
+    .highlight {
+        border-radius: 6px;
+        border: 1px solid var(--card-separator-color);
+        padding: 16px;
+
+        pre {
+            border: none;
+            padding: 0;
+        }
+    }
+
+    .copyCodeButton {
+        box-shadow: none;
+        border: 1px solid var(--card-separator-color);
+        border-radius: 6px;
+        padding: 4px 8px;
+        font-size: 1.2rem;
+        background: var(--card-background);
+    }
+
+    blockquote {
+        border-inline-start-color: var(--card-separator-color);
+        background-color: var(--blockquote-background-color);
+        border-radius: 0 6px 6px 0;
+        padding: 12px 16px;
+        margin: 1em 0;
+
+        p:first-child { margin-top: 0; }
+        p:last-child { margin-bottom: 0; }
+    }
+
+    table {
+        font-size: 1.4rem;
+    }
+
+    th {
+        background-color: var(--blockquote-background-color);
+        font-weight: 600;
+    }
+
+    th, td {
+        padding: 6px 13px;
+    }
+
+    hr {
+        width: 100%;
+        height: 1px;
+        background: var(--card-separator-color);
+        margin: 24px 0;
+        opacity: 1;
+    }
+
+    kbd {
+        background-color: var(--blockquote-background-color);
+        border: 1px solid var(--kbd-border-color);
+        border-bottom-width: 2px;
+        border-radius: 6px;
+        padding: 2px 6px;
+        font-size: 0.85em;
+    }
+}
+
+// ============================================================
+// TABLE OF CONTENTS
+// ============================================================
+.widget--toc {
+    border-radius: 6px;
+
+    .toc-nav li.active-class > a {
+        border-left-color: var(--accent-color);
+    }
+}
+
+.article-toc details {
+    @include gh-border;
+    border-radius: 6px;
+}
+
+// ============================================================
+// WIDGETS
+// ============================================================
+.tagCloud .tagCloud-tags a {
+    border: none;
+    background-color: var(--card-background-selected);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--card-text-color-secondary);
+    transition: all 0.15s ease;
+
+    &:hover {
+        border: none;
+        background-color: var(--accent-color);
+        color: #fff;
+    }
+}
+
+.widget.archives .widget-archive--list {
+    border-radius: 6px;
+}
+
+// Right sidebar category list — override auto colors
+.widget .article-category a,
+.widget .tagCloud-tags a {
+    background-color: var(--card-background-selected) !important;
+    color: var(--card-text-color-secondary) !important;
+    border: none !important;
+
+    &:hover {
+        background-color: var(--accent-color) !important;
+        color: #fff !important;
+    }
+}
+
+.section-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--card-text-color-main);
+
+    a {
+        color: var(--card-text-color-main);
+    }
+}
+
+// ============================================================
+// COMPACT ARTICLE LIST
+// ============================================================
+.article-list--compact {
+    border-radius: 6px;
+
+    article:not(:last-of-type) {
+        border-bottom: 1px solid var(--card-separator-color);
+    }
+
+    article .article-title {
+        font-size: 1.5rem;
+        font-weight: 500;
+
+        @include respond(md) {
+            font-size: 1.6rem;
+        }
+    }
+}
+
+// ============================================================
+// PAGINATION — Google style
+// ============================================================
+.pagination {
+    justify-content: center;
+    background: none;
+    border: none;
+    box-shadow: none;
+    gap: 4px;
+    padding: 16px 0;
+
+    .page-link {
+        flex: 0 0 auto;
+        min-width: 40px;
+        height: 40px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-size: 1.4rem;
+        color: var(--accent-color);
+        background: none;
+        transition: background-color 0.15s ease;
+
+        &:first-child,
+        &:last-child {
+            flex: 0 0 auto;
+            padding: 0 8px;
+            border-radius: 50%;
+            min-width: 40px;
+        }
+
+        svg {
+            width: 18px;
+            height: 18px;
+            color: var(--accent-color);
+        }
+
+        &:hover:not(.current):not(.disabled) {
+            background-color: var(--card-background-selected);
+            opacity: 1;
+        }
+
+        &.current {
+            background: none;
+            color: var(--card-text-color-main);
+            font-weight: 700;
+            cursor: default;
+        }
+
+        &.disabled {
+            opacity: 0.3;
+            color: var(--card-text-color-tertiary);
+        }
+    }
+}
+
+// ============================================================
+// SEARCH
+// ============================================================
+.search-form {
+    input {
+        border: 1px solid var(--card-separator-color) !important;
+        border-radius: 6px !important;
+        box-shadow: none !important;
+        background-color: var(--card-background) !important;
+        font-size: 1.4rem;
+        padding: 8px 12px;
+
+        &:focus {
+            border-color: var(--accent-color) !important;
+            outline: none;
+        }
+    }
+}
+
+// ============================================================
+// DARK MODE TOGGLE
+// ============================================================
+#dark-mode-toggle {
+    color: var(--body-text-color);
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+        background-color: var(--card-background-selected);
+    }
+}
+
+// ============================================================
+// GRID / LAYOUT REFINEMENTS
+// ============================================================
+.main-container {
+    gap: 24px;
+}
+
+main.main {
+    gap: 24px;
+}
+
+// ============================================================
+// SCROLLBAR (GitHub-style thin)
+// ============================================================
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(128, 128, 128, 0.3);
+    border-radius: 4px;
+
+    &:hover {
+        background-color: rgba(128, 128, 128, 0.5);
+    }
+}
+
+// ============================================================
+// LINKS
+// ============================================================
+a {
+    transition: color 0.15s ease;
+
+    &.link {
+        box-shadow: none;
+        text-decoration: underline;
+        text-decoration-color: rgba(var(--link-background-color), 0.3);
+        text-underline-offset: 3px;
+
+        &:hover {
+            box-shadow: none;
+            text-decoration-color: var(--accent-color);
+        }
+    }
+}
+
+// ============================================================
+// MERMAID
+// ============================================================
+.mermaid-wrapper .mermaid {
+    border: 1px solid var(--card-separator-color);
+    border-radius: 6px;
+    padding: 16px;
+}
+
+.mermaid-toolbar button {
+    box-shadow: none;
+    border: 1px solid var(--card-separator-color);
+    border-radius: 6px;
+}
