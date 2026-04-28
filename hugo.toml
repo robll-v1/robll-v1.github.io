@@ -17,6 +17,7 @@ default = 'light'
 [params.sidebar]
 emoji = '🏝️'
 subtitle = '数据库内核 / AI Agent / 开源贡献'
+tags = ['C++', 'Go', 'OLAP', 'Distributed Systems', 'LLM', 'Open Source', 'Doris', 'RocksDB']
 
 [params.article]
 math = false

@@ -181,6 +181,33 @@ body {
 }
 
 // ============================================================
+// SIDEBAR PERSONAL TAGS
+// ============================================================
+.sidebar-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.sidebar-tag {
+    display: inline-block;
+    font-size: 1.1rem;
+    padding: 2px 8px;
+    border-radius: 12px;
+    background-color: var(--card-background-selected);
+    color: var(--card-text-color-secondary);
+    font-weight: 500;
+    line-height: 1.6;
+    white-space: nowrap;
+}
+
+[data-scheme="dark"] .sidebar-tag {
+    background-color: var(--card-background-selected);
+    color: var(--card-text-color-secondary);
+}
+
+// ============================================================
 // MENU
 // ============================================================
 #main-menu {
