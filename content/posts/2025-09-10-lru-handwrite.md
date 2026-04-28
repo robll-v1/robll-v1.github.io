@@ -1,36 +1,33 @@
 ---
-title: "更一篇LRU算法面试题手撕："
+title: "手撕 LRU 缓存"
 date: 2025-09-10
 draft: false
 categories: ["算法"]
 tags: ["面试", "LRU", "手撕"]
 ---
 
-日期：2025-09-10
+LRU 缓存是面试高频题，核心是哈希表 + 双向链表，实现 O(1) 的 get 和 put。
 
-LRU 缓存机制可以通过哈希表辅以双向链表实现，我们用一个哈希表和一个双向链表维护所有在缓存中的键值对。
+## 设计思路
 
-双向链表按照被使用的顺序存储了这些键值对，靠近头部的键值对是最近使用的，而靠近尾部的键值对是最久未使用的。
+- **双向链表**：按使用顺序存储键值对，头部是最近使用的，尾部是最久未使用的
+- **哈希表**：通过 key 直接定位到链表节点，O(1) 查找
 
-哈希表即为普通的哈希映射（HashMap），通过缓存数据的键映射到其在双向链表中的位置。
+### get 操作
 
-这样以来，我们首先使用哈希表进行定位，找出缓存项在双向链表中的位置，随后将其移动到双向链表的头部，即可在 O(1) 的时间内完成 get 或者 put 操作。具体的方法如下：
+1. key 不存在：返回 -1
+2. key 存在：将节点移到链表头部，返回 value
 
-对于 get 操作，首先判断 key 是否存在：
+### put 操作
 
-如果 key 不存在，则返回 −1；
+1. key 不存在：创建新节点插入头部，超出容量则删除尾部节点
+2. key 存在：更新 value，将节点移到头部
 
-如果 key 存在，则 key 对应的节点是最近被使用的节点。通过哈希表定位到该节点在双向链表中的位置，并将其移动到双向链表的头部，最后返回该节点的值。
+所有操作都是 O(1)：哈希表查找 O(1)，链表头部插入和尾部删除 O(1)，移动节点 = 删除 + 头部插入。
 
-对于 put 操作，首先判断 key 是否存在：
+## 实现
 
-如果 key 不存在，使用 key 和 value 创建一个新的节点，在双向链表的头部添加该节点，并将 key 和该节点添加进哈希表中。然后判断双向链表的节点数是否超出容量，如果超出容量，则删除双向链表的尾部节点，并删除哈希表中对应的项；
-
-如果 key 存在，则与 get 操作类似，先通过哈希表定位，再将对应的节点的值更新为 value，并将该节点移到双向链表的头部。
-
-上述各项操作中，访问哈希表的时间复杂度为 O(1)，在双向链表的头部添加节点、在双向链表的尾部删除节点的复杂度也为 O(1)。而将一个节点移到双向链表的头部，可以分成「删除该节点」和「在双向链表的头部添加节点」两步操作，都可以在 O(1) 时间内完成。
-
-```
+```cpp
 struct DLinkedNode {
     int key, value;
     DLinkedNode* prev;
@@ -41,7 +38,7 @@ struct DLinkedNode {
 
 class LRUCache {
 private:
-    unordered_map cache;
+    unordered_map<int, DLinkedNode*> cache;
     DLinkedNode* head;
     DLinkedNode* tail;
     int size;
@@ -54,33 +51,31 @@ public:
         head->next = tail;
         tail->prev = head;
     }
-    
+
     int get(int key) {
-        if(!cache.count(key)){
+        if (!cache.count(key)) {
             return -1;
         }
         DLinkedNode* node = cache[key];
         moveToHead(node);
-        return node -> value;
+        return node->value;
     }
-    
+
     void put(int key, int value) {
-        if(!cache.count(key))
-        {
-            DLinkedNode* node = new DLinkedNode(key , value);
+        if (!cache.count(key)) {
+            DLinkedNode* node = new DLinkedNode(key, value);
             cache[key] = node;
             addToHead(node);
             size++;
-            if(size > capacity){
+            if (size > capacity) {
                 DLinkedNode* removed = removeTail();
-                cache.erase(removed -> key);
+                cache.erase(removed->key);
                 delete removed;
                 size--;
             }
-        }
-        else{
+        } else {
             DLinkedNode* node = cache[key];
-            node -> value = value;
+            node->value = value;
             moveToHead(node);
         }
     }
@@ -91,7 +86,7 @@ public:
         head->next->prev = node;
         head->next = node;
     }
-    
+
     void removeNode(DLinkedNode* node) {
         node->prev->next = node->next;
         node->next->prev = node->prev;
@@ -109,3 +104,8 @@ public:
     }
 };
 ```
+
+## 复杂度
+
+- 时间：get O(1)，put O(1)
+- 空间：O(capacity)

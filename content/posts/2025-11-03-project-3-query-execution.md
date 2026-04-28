@@ -1,44 +1,54 @@
 ---
-title: "Project #3 – Query Execution"
+title: "CMU 15-445 Project #3 — Query Execution"
 date: 2025-11-03
 draft: false
 categories: ["数据库"]
 tags: ["CMU 15-445", "Query Execution"]
 ---
 
-日期：2025-11-03
+Project #3 实现查询执行器，整体比 P2 轻松不少 — 头文件已经提供了大量辅助函数，实际编码量远小于 P2。
 
-历经半个多月的编写，终于也是把p3写完了，目前p3给我的感受比p2要好很多（因为p2的整个大文件的构建实在是非常折磨，对于我这种没有什么编码经验的c++新手来说非常困难，以至于出现了对于一个功能看半天的情况）。
+## Task #1 — Access Method Executors
 
-下面是对于p3的一些自己踩坑的经历和实际体验：
+四个基础执行器：
 
-p3主要是计划查询的构建，445的官方文档给出了明确的构建计划，在整个p3的计划中，我们只需要完成简单的读写查询就好了，主要分为：
+- **SeqScan**：顺序遍历表中所有 tuple
+- **Insert**：插入 tuple 到表，同时更新索引
+- **Delete**：标记删除 tuple，同时更新索引
+- **IndexScan**：通过索引定位 tuple，避免全表扫描
 
-- **Task #1: Access Method Executors**
+实现上注意初始化细节和指针的正确调用，辅助函数会处理大部分底层逻辑。
 
-- **Task #2: Aggregation and Join Executors**
+## Task #2 — Aggregation and Join Executors
 
-- **Task #3: Sort + Limit Executors and Top-N Optimization**
+**Aggregation**
 
-这三个任务，由于这些文件的头文件都给出了已经实现好的辅助函数，实际上p3的任务量远远小于p2
+分组聚合，按 group-by 键分组后对每组执行聚合函数。
 
-t1：
+**NestedLoopJoin**
 
-seqscan、insert、delete、indexscan，非常好理解，遍历扫描，插入，删除，索引查找扫描，内部只要注意函数初始化的细节，还有一些指针的调用问题，辅助函数会帮我们解决问题。
+双层循环遍历左表和右表，找到满足条件的 tuple 对。效率较低，适合小表。
 
-t2：
+**NestedIndexJoin**
 
-Aggregation、NestedLoopJoin、NestedIndexJoin
+外层遍历左表，内层通过索引查找右表匹配行。比 NestedLoopJoin 快很多，前提是右表有索引。
 
-分组，遍历连接，利用索引连接，其实在lecture中都讲过，其中遍历查找的效率较慢，需要先遍历完所有的左表和右表，寻找到合适的条件直接塞进去，而索引查找就可以利用索引查找右表的内容，这样就比loop快很多。
+这些在 Andy 的课上都讲过原理，实现时对照讲义即可。
 
-t3：
-sort、limit、topn
+## Task #3 — Sort + Limit + Top-N
 
-sort：非常简单，自定义一个比较器，子查询器遍历next，另外开一个vector，然后sort一下就好（把比较器塞进去）
+**Sort**
 
-limit：获取需要限制输出的语句条数，next（），然后需要限制的语句num++就好了
+自定义比较器，子查询器遍历 Next 把所有 tuple 收集到 vector，然后 `std::sort`。
 
-topn：如果你力扣刷的多一点，简直是非常自然而然的就能想到，动态维护一个列表，按照自定义排序，完完全全就是一个MaxHeap/MinHeap的实际应用，直接自定义比较器，塞到实现好的heap里面，完成。
+**Limit**
 
-整个p3做下来的进度也比p2快了不少，等笔者把几个小问题修一下就通关，马不停蹄开下一个pj
+获取限制条数，每次 Next 计数，达到上限后停止输出。
+
+**Top-N**
+
+动态维护一个大小为 N 的堆。自定义比较器，遍历所有 tuple 维护堆即可 — 本质就是 LeetCode 上经典的「第 K 大元素」问题的实际应用。
+
+## 总结
+
+P3 的设计很好，每个 Task 都有明确的目标，头文件的辅助函数大幅降低了实现难度。做完之后对查询执行的火山模型（Volcano Model）有了更直观的理解。

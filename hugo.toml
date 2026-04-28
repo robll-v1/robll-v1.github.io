@@ -58,7 +58,7 @@ weight = 4
 
 [markup.highlight]
 lineNos = true
-style = 'github'
+noClasses = false
 
 [markup.goldmark.renderer]
 unsafe = true
